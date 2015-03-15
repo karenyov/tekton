@@ -211,6 +211,8 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
   background-repeat: repeat-x;
 }
+
+
 .navbar-default {
   background-image: -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%);
   background-image:      -o-linear-gradient(top, #fff 0%, #f8f8f8 100%);
@@ -246,6 +248,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
 }
+
 .navbar-inverse .navbar-nav > .active > a {
   background-image: -webkit-linear-gradient(top, #222 0%, #282828 100%);
   background-image:      -o-linear-gradient(top, #222 0%, #282828 100%);

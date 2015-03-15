@@ -4,7 +4,26 @@
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 60px;
+    height: 200px;
     border-top: solid #DDDDDD 1px;
-    background-color: #f5f5f5;
+    margin-bottom: -10px;
+    background-image: url("/static/img/footer.jpg");
+}
+
+#d {
+    margin-top: 80px;
+    text-align: center;
+}
+
+#d p{
+    color: #8B8682;
+}
+
+#link li{
+    list-style: none;
+    display: inline;
+}
+
+#link li a{
+    padding: 3px 1px;
 }
