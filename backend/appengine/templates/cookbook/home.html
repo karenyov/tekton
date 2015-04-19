@@ -1,0 +1,78 @@
+{% extends 'base/base.html' %}
+{% block body %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+            <h1 class="text-center">Livro de Receitas</h1>
+            <br/><p/>
+
+
+            <div id="preview">
+			<div id="preview-coverflow">
+				<img class="cover" src="https://priscilamedeiros.files.wordpress.com/2011/01/suflelindouz1.jpg"/>
+				<img class="cover" src="https://s3.amazonaws.com/catraca-uploads/wp-content/uploads/2013/09/bolo-de-choco-sem-farinha.jpg"/>
+				<img class="cover" src="http://cdn.mundodastribos.com/wp-admin/uploads/2011/03/chinahouse.jpg"/>
+				<img class="cover" src="http://wallpaper.free-photograph.net/sumb/yun_12480.jpg"/>
+				<img class="cover" src="http://1.bp.blogspot.com/_6bpNWsjCwNQ/RtWnaBc9VxI/AAAAAAAAAA4/k_c40NiFvbI/s320/COMIDA+AFRO.jpg"/>
+				<img class="cover" src="http://saopaulo.com.br/wp-content/uploads/2014/01/calmecac-s%C3%A3o-paulo.jpg"/>
+				<img class="cover" src="http://saopaulo.com.br/wp-content/uploads/2014/01/comida-restaurante-helvetia.jpg"/>
+				<img class="cover" src="http://pt.petitchef.com/upload_data/article/middle/894.jpg"/>
+				<img class="cover" src="http://3.bp.blogspot.com/-eG3r56VXha4/Uh-c_jjKA3I/AAAAAAAAGeI/vkQYR-MTNY0/s320/carne+assada.jpg"/>
+				<img class="cover" src="http://pt.alltech.com/sites/default/files/styles/blog_node_popup_images/public/_alltech_1a-023931_copy.jpg?itok=I_8vID8h"/>
+				<img class="cover" src="http://pt.petitchef.com/upload_data/article/middle/890.jpg"/>
+				<img class="cover" src="http://site.farinhapura.com.br/files/imagecache/320x240_f4c715c676cc9568b5cc0ee5dca1f067.jpg"/>
+				<img class="cover" src="http://www.raspandotacho.com/wp-content/uploads/2014/02/foto2.jpg"/>
+			</div>
+			<style>
+				#preview {
+					padding-bottom: 100px;
+				}
+				#preview-coverflow .cover {
+					cursor:		pointer;
+					width:		320px;
+					height:		240px;
+					box-shadow:	0 0 4em 1em white;
+				}
+			</style>
+			<script>
+				$(function() {
+					if ($.fn.reflect) {
+						$('#preview-coverflow .cover').reflect();	// only possible in very specific situations
+					}
+
+					$('#preview-coverflow').coverflow({
+						index:			6,
+						density:		2,
+						innerOffset:	50,
+						innerScale:		.7,
+						animateStep:	function(event, cover, offset, isVisible, isMiddle, sin, cos) {
+							if (isVisible) {
+								if (isMiddle) {
+									$(cover).css({
+										'filter':			'none',
+										'-webkit-filter':	'none'
+									});
+								} else {
+									var brightness	= 1 + Math.abs(sin),
+										contrast	= 1 - Math.abs(sin),
+										filter		= 'contrast('+contrast+') brightness('+brightness+')';
+									$(cover).css({
+										'filter':			filter,
+										'-webkit-filter':	filter
+									});
+								}
+							}
+						}
+					});
+				});
+			</script>
+		</div>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -23,6 +23,8 @@
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/default.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-social.css"/>
+ <link rel="stylesheet" href="/static/font-awesome-4.2.0/css/font-awesome.min.css"/>
     <style>
         .pad8 {
             margin: 8px 15px;
@@ -31,6 +33,142 @@
     </style>
     <script src="/static/jquery/js/jquery-1.11.1.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+    <!-- jQuery/jQueryUI (hosted) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js"></script>
+		<!--<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/sunny/jquery-ui.css" rel="stylesheet" type="text/css"/>-->
+
+		<!-- Markdown parser -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.min.js"></script>
+
+		<!-- Prettyprint -->
+		<link href="https://google-code-prettify.googlecode.com/svn/loader/prettify.css" rel="stylesheet" type="text/css"/>
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+
+		<!-- Index -->
+		<style>
+
+			.clickable {
+				cursor:				pointer;
+			}
+
+			pre {
+				tab-size:			4;
+				overflow-x:			auto;
+				background-color:	#eee;
+				-webkit-column-break-inside: avoid;
+			}
+		</style>
+		<script>
+			$(function() {
+				function tabsToSpaces(line, tabsize) {
+					var out		= '',
+						tabsize = tabsize || 4,
+						c;
+					for (c in line) {
+						var ch = line.charAt(c);
+						if (ch === '\t') {
+							do {
+								out += ' ';
+							} while (out.length % tabsize);
+						} else {
+							out += ch;
+						}
+					}
+					return out;
+				}
+
+				function visualizeElement(element, type) {
+					var code		= $(element).html().split('\n'),
+						tabsize		= 4,
+						minlength	= 2E53,
+						l;
+
+					// Convert tabs to spaces
+					for (l in code) {
+						code[l] = tabsToSpaces(code[l], tabsize);
+					}
+
+
+					// determine minimum length
+					var minlength = 2E53;
+					var first = 2E53;
+					var last = 0;
+					for (l in code) {
+						if (/\S/.test(code[l])) {
+							minlength = Math.min(minlength, /^\s*/.exec(code[l])[0].length);
+							first = Math.min(first, l);
+							last = Math.max(last, l);
+						}
+					}
+
+					code = code.slice(first, last + 1);
+
+					// strip tabs at start
+					for (l in code) {
+						code[l] = code[l].slice(minlength);
+					}
+
+					// recombine
+					code = code.join('\n');
+
+					var fragment = $('<pre class="prettyprint"><code/></pre>').text(code).insertAfter(element);
+					$('<h3 class="clickable">'+type+'&hellip;</h3>').insertBefore(fragment).click(function() {
+						fragment.slideToggle();
+					});
+				}
+
+				// extract html fragments
+				$('div.prettyprint, span.prettyprint').each(function() {
+					visualizeElement(this, 'HTML');
+				});
+
+				// extract scripts
+				$('script.prettyprint').each(function() {
+					visualizeElement(this, 'Javascript');
+				});
+
+				// Include the readme
+				var markdown = new Markdown.Converter();
+				$.get('README.md', function(readme) {
+					$('#readme').html(markdown.makeHtml(readme));
+					$('#readme h1').each(function() {
+						$(this).nextUntil('h1').wrapAll('<div class="chapter"/>');
+					});
+					$('#readme pre').addClass('prettyprint');
+					prettyPrint();
+
+					// build menu
+					var menuitems = [];
+					$('h1').each(function() {
+						var text	= $(this).text(),
+							id		= $(this).attr('id') || 'chapter '+text;
+						$(this).attr('id', id);
+						menuitems.push('<a href="#'+id+'">'+text+'</a>');
+					});
+					$(menu).html(menuitems.join(' &mdash; '));
+				}, 'html');
+			});
+		</script>
+
+		<!-- Plugin -->
+		<script src="/static/jquery/jquery.coverflow.js"></script>
+		<!-- Optionals -->
+		<script src="/static/jqueryjquery.interpolate.js"></script>
+		<script src="/static/jqueryjquery.mousewheel.js"></script>
+		<script src="/static/jqueryjquery.touchSwipe.min.js"></script>
+		<script src="/static/jqueryreflection.js"></script>
+
+
+
+
+
+
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -70,9 +208,14 @@
 
                     <!----------- SEARCH BEGIN----------->
                     <form class="navbar-form navbar-left" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" />
-						</div> <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-search"></span></button>
+                        <div class="input-group stylish-input-group">
+                            <input type="text" class="form-control"  placeholder="Procurar" >
+                            <span class="input-group-addon">
+                            <button type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            </span>
+                        </div>
 					</form>
                     <!----------- SEARCH END----------->
 
@@ -108,6 +251,7 @@
                         </ul>
                     </div>
                 {% else %}
+                     <a  {{ 'class=active' if tab=='REGISTER' }} href="/register">{% trans %}Cadastre-se{% endtrans %}</a>&nbsp;&nbsp;
                     <a class="btn btn-warning" href="{{ _login_path }}">{% trans %}Login{% endtrans %}</a>
 
                 {% endif %}
@@ -130,12 +274,6 @@
            </a>
            <a href="\" class="btn btn-social-icon btn-facebook">
               <i class="fa fa-facebook"></i>
-           </a>
-           <a href="\" class="btn btn-social-icon btn-tumblr">
-               <i class="fa fa-tumblr"></i>
-           </a>
-           <a href="\" class="btn btn-social-icon btn-instagram">
-               <i class="fa fa-instagram"></i>
            </a>
         </p>
         <!---- LINK SOCIAL END----->

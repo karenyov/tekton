@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+{% block body %}
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+            <h1 class="text-center">Receita Aleatória</h1>
+            <br/><p/>
+
+
+            <p>
+                <h4 class="text-center">Está em dúvida no que cozinhar e gosta de desafios?</h4>
+            </p><br/>
+
+            <div class="container-fluid">
+                <section class="container">
+                    <div class="container-page">
+                        <div class="col-md-6">
+                            <form role="form" style="width:400px; margin: 0 auto;">
+                                <div class="form-group col-lg-12">
+                                    <h3 class="dark-grey">Receita</h3>
+                                    <div class="required-field-block">
+                                        <select class="form-control input-sm">
+                                            <option>Aleatório</option>
+                                            <option>Café da manhã</option>
+                                            <option>Almoço</option>
+                                            <option>Sobremesa</option>
+                                            <option>Café da tarde</option>
+                                            <option>Jantar</option>
+                                            <option>Festas</option>
+                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    <div class="required-field-block">
+                                         <button type="submit" class="btn btn-warning">OK</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3 class="dark-grey">Receita Sorteada</h3>
+                            <div class="jumbotron well">
+                                <h3>
+                                    NOME
+                                </h3><br/>
+                                <img class="cover" src="http://www.sectormaritimo.com/images/gambas%20al%20ajillo_web.jpg"/>
+
+                                <p>
+                                    This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content.
+                                </p>
+                                <p>
+                                    <a class="btn btn-warning btn-large" href="#">Ler mais</a>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
