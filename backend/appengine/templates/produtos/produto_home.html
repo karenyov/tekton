@@ -1,0 +1,61 @@
+{% extends 'produtos/produto_base.html' %}
+{% block body %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+            <h1 class="text-center">Formulário de Receitas</h1>
+            <br/><p/>
+            <form action="{{ salvar_path }}" method="post" style="width:400px; margin: 0 auto;">
+                {{ csrf_input() }}
+                <b>Categoria:</b>
+                <div class="form-group col-lg-12">
+                    <div class="required-field-block">
+                        {% macro select(nome) %}
+                        <select name="{{ nome }}" class="form-control input-sm">
+                             {% for cat in categorias %}
+                                <option value="{{ cat.key.id() }}" {{'selected="selected"' | safe if categoria_selecionada==cat }}> {{ cat.nome }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endmacro %}
+                    </div>
+                </div>
+                {{ select('categoria') }}
+                {{ form_input('Titulo','titulo','','') }}
+                {{ form_input('Imagem','imagem','','') }}
+                {{ form_input('Link','link','','') }}
+                <button type="reset" class="btn btn-warning">Limpar</button>
+                <button class="btn btn-warning" type="submit">Salvar</button>
+            </form>
+            <h1 class="text-center">Receitas {{ 'da categoria '+ categoria_selecionada.nome if categoria_selecionada }}</h1>
+            <form action="{{ pesquisar_path }}" style="width:400px; margin: 0 auto;">
+            {{ select('categoria_selecionada') }}
+                <button class="btn btn-warning" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </form><br/>
+            <table border="0" align="center">
+                 {% for prod in produtos %}
+                     <tr>
+                         <td>{{ prod.titulo }}</td>
+                         <td>&nbsp; - &nbsp;</td>
+                         <td>{{ prod.imagem }}</td>
+                         <td>
+                            <a class="btn btn-primary" href="{{ prod.edit_path }}">
+                                <i class="glyphicon glyphicon-pencil" ></i>
+                            </a>
+                         </td>
+                         <td>&nbsp;</td>
+                         <td>
+                            <form action="{{ prod.deletar_path }}" method="post">
+                                {{ csrf_input() }}
+                                <button class="btn btn-danger" >
+                                    <i class="glyphicon glyphicon-trash" ></i>
+                                </button>
+                            </form>
+                         </td>
+                     </tr>
+                     <tr><td>&nbsp;</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

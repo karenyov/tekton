@@ -1,0 +1,32 @@
+{% extends 'produtos/produto_base.html' %}
+{% block body %}
+{% set produto = produto or None %}
+{% set erros = erros or None %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+            <h1 class="text-center">Formulário de Produtos</h1>
+            <br/><p/>
+            <form action="{{ salvar_path }}" method="post" style="width:400px; margin: 0 auto;">
+                {{ csrf_input() }}
+                Categoria:
+                {% macro select(nome) %}
+                <select name="{{ nome }}">
+                    {% for cat in categorias %}
+                        <option value="{{ cat.key.id() }}" {{'selected="selected"' | safe if categoria_selecionada==cat }}> {{ cat.nome }}</option>
+                    {% endfor %}
+                </select>
+                {% endmacro %}
+                {{ select('categoria') }}
+                {{ form_input('Titulo','titulo',produto.titulo,erros.titulo) }}
+                {{ form_input('Imagem','imagem',produto.imagem,erros.imagem) }}
+                {% if produto and produto.key %}
+                <input type="hidden" name="produto_id" value="{{ produto.key.id() }}" />
+                {% endif %}
+                <button type="reset" class="btn btn-warning">Limpar</button>
+                <button class="btn btn-warning" type="submit">Salvar</button>
+            </form>
+		</div>
+	</div>
+</div>
+{% endblock %}
